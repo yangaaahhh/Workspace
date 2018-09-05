@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # include 会将前面的字符串与后面 blog.urls 中写的URL拼接
     url(r'blog/', include('blog.urls')),
+    url(r'', include('comments.urls')),
 ]

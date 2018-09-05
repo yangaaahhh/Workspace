@@ -19,23 +19,23 @@
 <section class="comment-area" id="comment-area">
     <hr>
     <h3>发表评论</h3>
-    <form action="#" method="post" class="comment-form">
+    <form action="{% url 'comments:post_comment' post.pk %}" method="post" class="comment-form">
+        {% csrf_token %}
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="id_name">名字：</label>
-                <input type="text" id="id_name" name="name" required>
+                {{ form.name }}
+                {{ form.name.errors }}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="id_email">邮箱：</label>
-                <input type="email" id="id_email" name="email" required>
-            </div>
-            <div class="col-md-4">
-                <label for="id_url">网址：</label>
-                <input type="text" id="id_url" name="url">
+                {{ form.email }}
+                {{ form.email.errors }}
             </div>
             <div class="col-md-12">
                 <label for="id_comment">评论：</label>
-                <textarea name="comment" id="id_comment" required></textarea>
+                {{ form.text }}
+                {{ form.text.errors }}
                 <button type="submit" class="comment-btn">发表</button>
             </div>
         </div>    <!-- row -->
@@ -43,34 +43,17 @@
     <div class="comment-list-panel">
         <h3>评论列表，共 <span>4</span> 条评论</h3>
         <ul class="comment-list list-unstyled">
+            {% for comment in comment_list %}
             <li class="comment-item">
-                <span class="nickname">AAA</span>
-                <time class="submit-date" datetime="2012-11-09T23:15:57+00:00">2017年3月12日 14:56</time>
+                <span class="nickname">{{ comment.name }}</span>
+                <time class="submit-date" datetime="2012-11-09T23:15:57+00:00">{{ comment.created_time }}</time>
                 <div class="text">
-                    111111111111111111111111
+                    {{ comment.text }}
                 </div>
             </li>
-            <li class="comment-item">
-                <span class="nickname">BBB</span>
-                <time class="submit-date" datetime="2012-11-09T23:15:57+00:00">2017年3月11日 23:56</time>
-                <div class="text">
-                    2222222222222222222222222
-                </div>
-            </li>
-            <li class="comment-item">
-                <span class="nickname">CCC</span>
-                <time class="submit-date" datetime="2012-11-09T23:15:57+00:00">2017年3月9日 8:56</time>
-                <div class="text">
-                    3333333333333333333333333
-                </div>
-            </li>
-            <li class="comment-item">
-                <span class="nickname">DDD</span>
-                <time class="submit-date" datetime="2012-11-09T23:15:57+00:00">2017年2月12日 12:56</time>
-                <div class="text">
-                    4444444444444444444444444
-                </div>
-            </li>
+            {% empty %}
+            暂无评论！
+            {% endfor %}
         </ul>
     </div>
 </section>
