@@ -8,13 +8,14 @@ import markdown
 # Create your views here.
 # 主页面视图函数
 def index(request):
-    post_list = Post.objects.all().order_by('-created_time')
+    post_list = Post.objects.all()
     return render(request, 'blog/index.html', context={'post_list': post_list, })
 
 
 # 详情页面视图函数
 def detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    post.increase_views()  # 阅读量+1
     post.body = markdown.markdown(post.body,
                                   extensions=
                                   ['markdown.extensions.extra',
@@ -32,12 +33,12 @@ def detail(request, pk):
 # 归档页面视图函数
 def archives(request, year, month):
     post_list = Post.objects.filter(created_time__year=year,
-                                    created_time__month=month).order_by('-created_time')
+                                    created_time__month=month)
     return render(request, 'blog/index.html', context={'post_list': post_list})
 
 
 # 分类页面视图函数
 def category(request, pk):
     cate = get_object_or_404(Category, pk=pk)
-    post_list = Post.objects.filter(category=cate).order_by('-created_time')
+    post_list = Post.objects.filter(category=cate)
     return render(request, 'blog/index.html', context={'post_list': post_list})
