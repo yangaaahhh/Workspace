@@ -21,4 +21,5 @@ urlpatterns = [
     # include 会将前面的字符串与后面 blog.urls 中写的URL拼接
     url(r'blog/', include('blog.urls')),
     url(r'', include('comments.urls')),
+    url(r'^search/', include('haystack.urls')),
 ]
